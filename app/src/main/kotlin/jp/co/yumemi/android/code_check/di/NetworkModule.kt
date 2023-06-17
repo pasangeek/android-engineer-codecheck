@@ -53,13 +53,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideDogApiService(retrofit: Retrofit): GithubRepositoryApiService {
+    fun provideGithubApiService(retrofit: Retrofit): GithubRepositoryApiService {
         return retrofit.create(GithubRepositoryApiService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideDogRepository(githubRepositoryApiService: GithubRepositoryApiService): GithubRepository {
+    fun provideGithubRepository(githubRepositoryApiService: GithubRepositoryApiService): GithubRepository {
         return GithubRepository(githubRepositoryApiService)
     }
 

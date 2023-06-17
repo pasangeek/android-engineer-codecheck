@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="jp.co.yumemi.android.code_check.OneViewModel" />
+            type="jp.co.yumemi.android.code_check.views.OneViewModel" />
     </data>
 
 
@@ -15,7 +15,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TopActivity">
+    tools:context=".activities.TopActivity">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/searchBar"

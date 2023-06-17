@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import jp.co.yumemi.android.code_check.adapters.CustomAdapter
 import jp.co.yumemi.android.code_check.databinding.FragmentOneBinding
 
 import jp.co.yumemi.android.code_check.model.GithubRepositoryData
@@ -76,31 +77,4 @@ val diff_util= object: DiffUtil.ItemCallback<GithubRepositoryData>(){
 
 }
 
-class CustomAdapter(
-    private val itemClickListener: OnItemClickListener,
-) : ListAdapter<GithubRepositoryData, CustomAdapter.ViewHolder>(diff_util){
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view)
-
-    interface OnItemClickListener{
-    	fun itemClick(item: GithubRepositoryData)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
-    {
-    	val view= LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_item, parent, false)
-    	return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int)
-    {
-    	val item= getItem(position)
-        (holder.itemView.findViewById<View>(R.id.repositoryNameView) as TextView).text=
-            item.name
-
-    	holder.itemView.setOnClickListener{
-     		itemClickListener.itemClick(item)
-    	}
-    }
-}

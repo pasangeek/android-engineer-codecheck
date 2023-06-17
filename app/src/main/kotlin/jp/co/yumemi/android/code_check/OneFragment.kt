@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -18,7 +17,7 @@ import jp.co.yumemi.android.code_check.databinding.FragmentOneBinding
 
 
 import jp.co.yumemi.android.code_check.model.GithubRepositoryData
-import jp.co.yumemi.android.code_check.repository.GithubRepository
+import jp.co.yumemi.android.code_check.views.OneViewModel
 
 class OneFragment: Fragment(){
 

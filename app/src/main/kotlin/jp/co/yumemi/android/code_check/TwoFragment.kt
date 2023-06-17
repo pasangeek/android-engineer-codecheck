@@ -22,7 +22,7 @@ class TwoFragment : Fragment(R.layout.fragment_two) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("検索した日時", lastSearchDate.toString())
+        //Log.d("検索した日時", lastSearchDate.toString())//null pointer
 
         binding = FragmentTwoBinding.bind(view)
 

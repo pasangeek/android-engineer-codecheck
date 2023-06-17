@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class GithubRepositoryData (
 
     val name: String?,
-    val ownerIconUrl: String?,
+    val owner: Owner?,
     val language: String?,
     @SerializedName("stargazers_count")
     val stargazersCount: Long?,

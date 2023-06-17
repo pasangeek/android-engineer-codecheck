@@ -72,7 +72,7 @@ class OneFragment: Fragment(){
     fun gotoRepositoryFragment(item: GithubRepositoryData)
     {
         val action= OneFragmentDirections
-            .actionRepositoriesFragmentToRepositoryFragment(item= item)
+            .actionRepositoriesFragmentToRepositoryFragment(item)
         findNavController().navigate(action)
     }
 }

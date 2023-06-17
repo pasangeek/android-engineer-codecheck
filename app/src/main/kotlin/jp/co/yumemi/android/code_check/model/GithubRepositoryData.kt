@@ -7,14 +7,14 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class GithubRepositoryData (
 
-    val name: String,
-    val ownerIconUrl: String,
-    val language: String,
+    val name: String?,
+    val ownerIconUrl: String?,
+    val language: String?,
     @SerializedName("stargazers_count")
     val stargazersCount: Long?,
     @SerializedName("watchers_count")
     val watchersCount: Long?,
-    val forksCount: Long,
-    val openIssuesCount: Long,
+    val forksCount: Long?,
+    val openIssuesCount: Long?,
 
     ):Parcelable

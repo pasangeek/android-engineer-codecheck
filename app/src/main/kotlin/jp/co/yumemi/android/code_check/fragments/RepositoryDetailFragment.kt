@@ -12,6 +12,9 @@ import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.databinding.RepositoryDetailBinding
 
 
+/**
+ * A fragment that displays the details of a repository.
+ */
 class RepositoryDetailFragment : Fragment(R.layout.repository_detail) {
 
     private val args: RepositoryDetailFragmentArgs by navArgs()
@@ -34,12 +37,12 @@ class RepositoryDetailFragment : Fragment(R.layout.repository_detail) {
         // Set the programming language
         _binding.languageView.text = item.language
         // Display the number of stars
-        _binding.starsView.text = "${item.stargazersCount} stars"
+        _binding.starsView.text = getString(R.string.stars_count, item.stargazersCount)
         // Display the number of watchers
-        _binding.watchersView.text = "${item.watchersCount} watchers"
+        _binding.watchersView.text = getString(R.string.watchers_count, item.watchersCount)
         // Display the number of forks
-        _binding.forksView.text = "${item.forksCount} forks"
+        _binding.forksView.text = getString(R.string.forks_count, item.forksCount)
         // Display the number of open issues
-        _binding.openIssuesView.text = "${item.openIssuesCount} open issues"
+        _binding.openIssuesView.text = getString(R.string.open_issues_count, item.openIssuesCount)
     }
 }

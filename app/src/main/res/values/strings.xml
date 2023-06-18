@@ -9,4 +9,10 @@
     <string name="written_in_kotlin">Written in Kotlin</string>
     <string name="jetbrains_kotlin">JetBrains/kotlin</string>
     <string name="stars">STARS</string>
+
+    <string name="stars_count">%1$d stars</string>
+    <string name="watchers_count">%1$d watchers</string>
+    <string name="forks_count">%1$d forks</string>
+    <string name="open_issues_count">%1$d open issues</string>
+//In the above code, %1$d is the placeholder for the numeric value
 </resources>

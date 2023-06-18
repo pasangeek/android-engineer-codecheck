@@ -23,7 +23,7 @@ class RepositoryDetailFragment : Fragment(R.layout.repository_detail) {
         super.onViewCreated(view, savedInstanceState)
 
         //Log.d("検索した日時", lastSearchDate.toString())//null pointer
-
+//TODO:must add postfix string concatenation
         binding = RepositoryDetailBinding.bind(view)
         // Retrieve the passed item from the arguments
         val item = args.item

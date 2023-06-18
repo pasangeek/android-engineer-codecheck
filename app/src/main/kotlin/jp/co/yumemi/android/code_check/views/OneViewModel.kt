@@ -15,9 +15,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * TwoFragment で使う
+ * ViewModel class for managing the data and business logic related to the OneFragment.
+ * Uses dependency injection to retrieve an instance of [GithubRepository] for data retrieval.
  */
-
 @HiltViewModel
 class OneViewModel @Inject constructor(
     val githubRepository: GithubRepository
@@ -26,13 +26,18 @@ class OneViewModel @Inject constructor(
     private val _githubRepositoryList = MutableLiveData<List<GithubRepositoryData>>(null)
     val gitHubRepositoryList: LiveData<List<GithubRepositoryData>> get() = _githubRepositoryList
 
-    // 検索結果
+    /**
+     * Perform a search for GitHub repositories based on the provided input text.
+     * Updates the [_githubRepositoryList] with the search results.
+     *
+     * @param inputText The text used for searching GitHub repositories.
+     */
     fun searchResults(inputText: String) {
-
+// Call the getGitHutAccountFromDataSource function from the injected githubRepository
         viewModelScope.launch {
             val serverResponse: GithubServerResponse? =
                 githubRepository.getGitHutAccountFromDataSource(inputText)
-
+            // Update the _githubRepositoryList with the search results
             _githubRepositoryList.value = serverResponse?.items
         }
     }

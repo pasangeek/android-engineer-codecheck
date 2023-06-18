@@ -13,9 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 
 import jp.co.yumemi.android.code_check.adapters.CustomAdapter
-import jp.co.yumemi.android.code_check.databinding.FragmentOneBinding
+import jp.co.yumemi.android.code_check.databinding.RepositorySearchBinding
+
 import jp.co.yumemi.android.code_check.model.GithubRepositoryData
-import jp.co.yumemi.android.code_check.views.OneViewModel
+import jp.co.yumemi.android.code_check.views.SearchViewModel
 
 /**
  * A Fragment that displays a list of GitHub repositories and handles user interactions.
@@ -23,8 +24,8 @@ import jp.co.yumemi.android.code_check.views.OneViewModel
 class OneFragment : Fragment() {
 
 
-    lateinit var _binding: FragmentOneBinding
-    lateinit var viewModel: OneViewModel
+    lateinit var _binding: RepositorySearchBinding
+    lateinit var viewModel: SearchViewModel
     lateinit var customAdapter: CustomAdapter
 
     override fun onCreateView(
@@ -32,8 +33,8 @@ class OneFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentOneBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity())[OneViewModel::class.java]
+        _binding = RepositorySearchBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
         _binding.vm = viewModel
         _binding.lifecycleOwner = this
 

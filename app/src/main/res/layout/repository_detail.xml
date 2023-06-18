@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/_38530_stars"
+        android:text="@string/stars"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
         android:textSize="12sp"

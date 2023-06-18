@@ -19,7 +19,7 @@ import javax.inject.Inject
  * Uses dependency injection to retrieve an instance of [GithubRepository] for data retrieval.
  */
 @HiltViewModel
-class OneViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     val githubRepository: GithubRepository
 ) : ViewModel() {
 
@@ -33,10 +33,10 @@ class OneViewModel @Inject constructor(
      * @param inputText The text used for searching GitHub repositories.
      */
     fun searchResults(inputText: String) {
-// Call the getGitHutAccountFromDataSource function from the injected githubRepository
+// Call the getGitHubAccountFromDataSource function from the injected githubRepository
         viewModelScope.launch {
             val serverResponse: GithubServerResponse? =
-                githubRepository.getGitHutAccountFromDataSource(inputText)
+                githubRepository.getGitHubAccountFromDataSource(inputText)
             // Update the _githubRepositoryList with the search results
             _githubRepositoryList.value = serverResponse?.items
         }

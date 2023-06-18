@@ -19,7 +19,7 @@ class GithubRepository @Inject constructor(private val githubRepositoryApiServic
      * @param query The search query for repositories.
      * @return The response containing GitHub server data, or null if an error occurred.
      */
-    suspend fun getGitHutAccountFromDataSource(query: String): GithubServerResponse? {
+    suspend fun getGitHubAccountFromDataSource(query: String): GithubServerResponse? {
         return withContext(Dispatchers.IO) {
             return@withContext getResponseFromRemoteService(query)
         }

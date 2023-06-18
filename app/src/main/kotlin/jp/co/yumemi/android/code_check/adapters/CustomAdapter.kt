@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import jp.co.yumemi.android.code_check.databinding.LayoutItemBinding
 import jp.co.yumemi.android.code_check.diff_util
 import jp.co.yumemi.android.code_check.model.GithubRepositoryData
+
 /**
  * Interface definition for the click listener of items in the adapter.
  */

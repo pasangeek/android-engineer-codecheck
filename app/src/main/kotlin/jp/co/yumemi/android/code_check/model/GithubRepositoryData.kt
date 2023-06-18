@@ -15,7 +15,7 @@ import kotlinx.parcelize.Parcelize
  * @param openIssuesCount The number of open issues in the repository.
  */
 @Parcelize
-data class GithubRepositoryData (
+data class GithubRepositoryData(
 
     val name: String?,
     val owner: Owner?,
@@ -27,4 +27,4 @@ data class GithubRepositoryData (
     val forksCount: Long?,
     val openIssuesCount: Long?,
 
-    ):Parcelable
+    ) : Parcelable

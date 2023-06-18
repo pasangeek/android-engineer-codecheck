@@ -24,6 +24,7 @@ object NetworkModule {
     fun provideBaseUrl(): String {
         return BASE_URL
     }
+
     /**
      * Provides the converter factory used for JSON serialization and deserialization.
      */
@@ -32,6 +33,7 @@ object NetworkModule {
     fun provideConverterFactory(): Converter.Factory {
         return GsonConverterFactory.create()
     }
+
     /**
      * Provides the HTTP client used for making network requests.
      */
@@ -41,6 +43,7 @@ object NetworkModule {
         val okHttpClient = OkHttpClient.Builder()
         return okHttpClient.build()
     }
+
     /**
      * Provides the implementation of the GithubRepositoryApiService interface.
      * It depends on the Retrofit instance.
@@ -59,6 +62,7 @@ object NetworkModule {
 
         return retrofit.build()
     }
+
     /**
      * Provides the implementation of the GithubRepositoryApiService interface.
      * It depends on the Retrofit instance.
@@ -68,6 +72,7 @@ object NetworkModule {
     fun provideGithubApiService(retrofit: Retrofit): GithubRepositoryApiService {
         return retrofit.create(GithubRepositoryApiService::class.java)
     }
+
     /**
      * Provides the GithubRepository instance.
      * It depends on the GithubRepositoryApiService.

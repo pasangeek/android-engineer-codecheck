@@ -3,6 +3,7 @@ package jp.co.yumemi.android.code_check.model
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+
 /**
  * Represents an owner of a GitHub repository.
  *

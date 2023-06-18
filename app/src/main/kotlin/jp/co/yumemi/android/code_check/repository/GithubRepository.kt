@@ -11,7 +11,7 @@ import javax.inject.Inject
  *
  * @param githubRepositoryApiService The API service used for making GitHub API requests.
  */
-class GithubRepository @Inject constructor(private val githubRepositoryApiService: GithubRepositoryApiService){
+class GithubRepository @Inject constructor(private val githubRepositoryApiService: GithubRepositoryApiService) {
 
     /**
      * Retrieves GitHub account data from the data source based on the provided query.
@@ -24,6 +24,7 @@ class GithubRepository @Inject constructor(private val githubRepositoryApiServic
             return@withContext getResponseFromRemoteService(query)
         }
     }
+
     /**
      * Retrieves the response from the remote GitHub API service based on the provided query.
      *

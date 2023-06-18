@@ -18,7 +18,9 @@ import jp.co.yumemi.android.code_check.databinding.FragmentOneBinding
 
 import jp.co.yumemi.android.code_check.model.GithubRepositoryData
 import jp.co.yumemi.android.code_check.views.OneViewModel
-
+/**
+ * A Fragment that displays a list of GitHub repositories and handles user interactions.
+ */
 class OneFragment: Fragment(){
 
 
@@ -68,7 +70,11 @@ class OneFragment: Fragment(){
             customAdapter.submitList(it)
         }
     }
-
+    /**
+     * Navigate to the RepositoryFragment with the selected repository item.
+     *
+     * @param item The selected GithubRepositoryData item.
+     */
     fun gotoRepositoryFragment(item: GithubRepositoryData)
     {
         val action= OneFragmentDirections
@@ -76,7 +82,9 @@ class OneFragment: Fragment(){
         findNavController().navigate(action)
     }
 }
-
+/**
+ * DiffUtil.ItemCallback implementation for comparing [GithubRepositoryData] items in [CustomAdapter].
+ */
 val diff_util= object: DiffUtil.ItemCallback<GithubRepositoryData>(){
     override fun areItemsTheSame(oldItem: GithubRepositoryData, newItem: GithubRepositoryData): Boolean
     {

@@ -12,11 +12,9 @@ import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.databinding.RepositoryDetailBinding
 
 
-import jp.co.yumemi.android.code_check.fragments.TwoFragmentArgs as TwoFragmentArgs1
+class RepositoryDetailFragment : Fragment(R.layout.repository_detail) {
 
-class TwoFragment : Fragment(R.layout.repository_detail) {
-
-    private val args: TwoFragmentArgs1 by navArgs()
+    private val args: RepositoryDetailFragmentArgs by navArgs()
 
     private var binding: RepositoryDetailBinding? = null
     private val _binding get() = binding!!

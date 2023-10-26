@@ -1,7 +1,7 @@
-package jp.co.yumemi.android.code_check.apiservices
+package jp.co.yumemi.android.code_check.sources
 
-import jp.co.yumemi.android.code_check.constant.Constants
-import jp.co.yumemi.android.code_check.model.GithubServerResponse
+import jp.co.yumemi.android.code_check.common.Constants
+import jp.co.yumemi.android.code_check.data.model.GithubServerResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers

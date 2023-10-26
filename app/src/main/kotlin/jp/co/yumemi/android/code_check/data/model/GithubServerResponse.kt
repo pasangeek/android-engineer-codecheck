@@ -1,4 +1,4 @@
-package jp.co.yumemi.android.code_check.model
+package jp.co.yumemi.android.code_check.data.model
 
 /**
  * Represents the response received from the GitHub server.

@@ -1,15 +1,15 @@
 /*
  * Copyright © 2021 YUMEMI Inc. All rights reserved.
  */
-package jp.co.yumemi.android.code_check.views
+package jp.co.yumemi.android.code_check.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jp.co.yumemi.android.code_check.model.GithubRepositoryData
-import jp.co.yumemi.android.code_check.model.GithubServerResponse
+import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
+import jp.co.yumemi.android.code_check.data.model.GithubServerResponse
 import jp.co.yumemi.android.code_check.repository.GithubRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject

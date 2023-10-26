@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import jp.co.yumemi.android.code_check.apiservices.GithubRepositoryApiService
-import jp.co.yumemi.android.code_check.constant.Constants.BASE_URL
+import jp.co.yumemi.android.code_check.sources.GithubRepositoryApiService
+import jp.co.yumemi.android.code_check.common.Constants.BASE_URL
 import jp.co.yumemi.android.code_check.repository.GithubRepository
 import okhttp3.OkHttpClient
 import retrofit2.Converter

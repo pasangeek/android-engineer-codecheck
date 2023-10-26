@@ -27,6 +27,6 @@ class TopActivity : AppCompatActivity(R.layout.activity_top) {
          * It will be assigned a value at runtime.
          * This is a null value since its not used
          */
-        lateinit var lastSearchDate: Date
+        //lateinit var lastSearchDate: Date
     }
 }

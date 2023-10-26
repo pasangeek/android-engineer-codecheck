@@ -1,4 +1,4 @@
-package jp.co.yumemi.android.code_check.constant
+package jp.co.yumemi.android.code_check.common
 
 object Constants {
     /**

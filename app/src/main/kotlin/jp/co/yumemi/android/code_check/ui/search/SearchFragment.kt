@@ -1,7 +1,7 @@
 /*
  * Copyright © 2021 YUMEMI Inc. All rights reserved.
  */
-package jp.co.yumemi.android.code_check.fragments
+package jp.co.yumemi.android.code_check.ui.search
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.adapters.CustomAdapter
 import jp.co.yumemi.android.code_check.databinding.RepositorySearchBinding
 
-import jp.co.yumemi.android.code_check.model.GithubRepositoryData
-import jp.co.yumemi.android.code_check.views.SearchViewModel
+import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
+
 
 /**
  * A Fragment that displays a list of GitHub repositories and handles user interactions.
@@ -75,8 +75,7 @@ class OneFragment : Fragment() {
      * @param item The selected GithubRepositoryData item.
      */
     fun gotoRepositoryFragment(item: GithubRepositoryData) {
-        val action = OneFragmentDirections
-            .actionRepositoriesFragmentToRepositoryFragment(item)
+        val action = OneFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(item)
         findNavController().navigate(action)
     }
 }

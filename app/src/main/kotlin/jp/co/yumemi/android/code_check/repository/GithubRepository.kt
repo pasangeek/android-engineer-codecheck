@@ -1,7 +1,7 @@
 package jp.co.yumemi.android.code_check.repository
 
-import jp.co.yumemi.android.code_check.apiservices.GithubRepositoryApiService
-import jp.co.yumemi.android.code_check.model.GithubServerResponse
+import jp.co.yumemi.android.code_check.sources.GithubRepositoryApiService
+import jp.co.yumemi.android.code_check.data.model.GithubServerResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

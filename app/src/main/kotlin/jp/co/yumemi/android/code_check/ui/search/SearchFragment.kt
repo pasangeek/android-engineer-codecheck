@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 
-import jp.co.yumemi.android.code_check.adapters.CustomAdapter
+import jp.co.yumemi.android.code_check.ui.adapters.GithubRepositoryDetailAdapter
 import jp.co.yumemi.android.code_check.databinding.RepositorySearchBinding
 
 import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
@@ -26,7 +26,7 @@ class OneFragment : Fragment() {
 
     lateinit var _binding: RepositorySearchBinding
     lateinit var viewModel: SearchViewModel
-    lateinit var customAdapter: CustomAdapter
+    lateinit var githubRepositoryDetailAdapter: GithubRepositoryDetailAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +46,7 @@ class OneFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        customAdapter = CustomAdapter(object : CustomAdapter.OnItemClickListener {
+        githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object : GithubRepositoryDetailAdapter.OnItemClickListener {
             override fun itemClick(item: GithubRepositoryData) {
                 gotoRepositoryFragment(item)
             }
@@ -63,9 +63,9 @@ class OneFragment : Fragment() {
                 return@setOnEditorActionListener false
             }
 
-        _binding.recyclerView.adapter = customAdapter
+        _binding.recyclerView.adapter = githubRepositoryDetailAdapter
         viewModel.gitHubRepositoryList.observe(requireActivity()) {
-            customAdapter.submitList(it)
+            githubRepositoryDetailAdapter.submitList(it)
         }
     }
 
@@ -81,7 +81,7 @@ class OneFragment : Fragment() {
 }
 
 /**
- * DiffUtil.ItemCallback implementation for comparing [GithubRepositoryData] items in [CustomAdapter].
+ * DiffUtil.ItemCallback implementation for comparing [GithubRepositoryData] items in [GithubRepositoryDetailAdapter].
  */
 val diff_util = object : DiffUtil.ItemCallback<GithubRepositoryData>() {
     override fun areItemsTheSame(

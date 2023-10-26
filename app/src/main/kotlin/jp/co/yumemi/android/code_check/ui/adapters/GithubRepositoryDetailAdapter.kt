@@ -1,4 +1,4 @@
-package jp.co.yumemi.android.code_check.adapters
+package jp.co.yumemi.android.code_check.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,9 +12,9 @@ import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
 /**
  * Interface definition for the click listener of items in the adapter.
  */
-class CustomAdapter(
+class GithubRepositoryDetailAdapter(
     private val itemClickListener: OnItemClickListener,
-) : ListAdapter<GithubRepositoryData, CustomAdapter.ViewHolder>(diff_util) {
+) : ListAdapter<GithubRepositoryData, GithubRepositoryDetailAdapter.ViewHolder>(diff_util) {
 
     /**
      * Called when an item in the adapter is clicked.

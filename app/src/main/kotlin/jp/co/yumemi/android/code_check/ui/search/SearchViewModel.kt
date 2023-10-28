@@ -3,6 +3,7 @@
  */
 package jp.co.yumemi.android.code_check.ui.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,13 +34,23 @@ class SearchViewModel @Inject constructor(
      * @param inputText The text used for searching GitHub repositories.
      */
     fun searchResults(inputText: String) {
-// Call the getGitHubAccountFromDataSource function from the injected githubRepository
+        Log.d("SearchViewModel", "Searching GitHub repositories with input: $inputText")
+        // Call the getGitHubAccountFromDataSource function from the injected githubRepository
         viewModelScope.launch {
-            val serverResponse: GithubServerResponse? =
-                githubRepository.getGitHubAccountFromDataSource(inputText)
-            // Update the _githubRepositoryList with the search results
-            _githubRepositoryList.value = serverResponse?.items
+            try {
+                val serverResponse: GithubServerResponse? =
+                    githubRepository.getGitHubAccountFromDataSource(inputText)
+                if (serverResponse != null) {
+                    Log.d("SearchViewModel", "Search results received: ${serverResponse.items?.size} items")
+                    // Update the _githubRepositoryList with the search results
+                    _githubRepositoryList.value = serverResponse.items
+                } else {
+                    Log.e("SearchViewModel", "Search results are null or empty")
+                }
+            } catch (e: Exception) {
+                Log.e("SearchViewModel", "Error during search: ${e.message}")
+            }
         }
-    }
+}
 }
 

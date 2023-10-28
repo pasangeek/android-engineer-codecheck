@@ -2,6 +2,7 @@ package jp.co.yumemi.android.code_check.ui.details
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ class RepositoryDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRepositoryDetailBinding.inflate(inflater, container, false)
+        Log.d("RepositoryDetailFragment", "Fragment created")
         return binding?.root ?: inflater.inflate(R.layout.fragment_repository_detail, container, false)
     }
 
@@ -38,7 +40,7 @@ class RepositoryDetailFragment : Fragment() {
         binding?.lifecycleOwner = viewLifecycleOwner
 
         viewModel.setRepositoryDetails(args.repositoryArgument)
-
+        Log.d("RepositoryDetailFragment", "Repository details set")
         viewModel.gitHubRepositoryDetails.observe(viewLifecycleOwner) { it ->
             it?.let {
                 try {
@@ -47,10 +49,12 @@ class RepositoryDetailFragment : Fragment() {
                             .load(it.owner?.avatarUrl)
                             .error(R.drawable.no_image_background) // Use a placeholder for error
                             .into(image_view)
+                        Log.d("RepositoryDetailFragment", "Image loaded")
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
                     // Handle the exception, e.g., show an error message or log it.
+                    Log.e("RepositoryDetailFragment", "Error loading image: ${e.message}")
                     Snackbar.make(view, "Image loading error: ${e.message}", Snackbar.LENGTH_LONG).show()
                 }
             }
@@ -61,5 +65,6 @@ class RepositoryDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+        Log.d("RepositoryDetailFragment", "View destroyed")
     }
 }

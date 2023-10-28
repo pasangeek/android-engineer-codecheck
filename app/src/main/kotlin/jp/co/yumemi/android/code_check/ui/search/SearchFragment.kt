@@ -4,6 +4,7 @@
 package jp.co.yumemi.android.code_check.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,6 +58,7 @@ class SearchFragment : Fragment() {
                 if (action == EditorInfo.IME_ACTION_SEARCH) {
                     editText.text.toString().let {
                         viewModel.searchResults(it)
+                        Log.d("SearchFragment", "Search initiated with query: $it")
                     }
                     return@setOnEditorActionListener true
                 }
@@ -66,6 +68,7 @@ class SearchFragment : Fragment() {
         binding?.recyclerView?.adapter = githubRepositoryDetailAdapter
         viewModel.gitHubRepositoryList.observe(viewLifecycleOwner) {
             githubRepositoryDetailAdapter.submitList(it)
+            Log.d("SearchFragment", "GitHub repository list updated")
         }
     }
 
@@ -78,11 +81,13 @@ class SearchFragment : Fragment() {
         val action =
             SearchFragmentDirections.actionOneFragmentToRepositoryDetailFragment(repositoryArgument = item)
         findNavController().navigate(action)
+        Log.d("SearchFragment", "Navigating to RepositoryDetailFragment with item: ${item.name}")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+        Log.d("SearchFragment", "View destroyed")
     }
 }
 

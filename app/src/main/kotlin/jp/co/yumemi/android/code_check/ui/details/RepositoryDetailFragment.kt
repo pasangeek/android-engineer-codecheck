@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
@@ -40,14 +41,22 @@ class RepositoryDetailFragment : Fragment() {
 
         viewModel.gitHubRepositoryDetails.observe(viewLifecycleOwner) { it ->
             it?.let {
-                binding?.ownerIconView?.let { it1 ->
-                    Glide.with(this).load(it.owner?.avatarUrl).into(
-                        it1
-                    )
+                try {
+                    binding?.ownerIconView?.let { image_view ->
+                        Glide.with(this)
+                            .load(it.owner?.avatarUrl)
+                            .error(R.drawable.no_image_background) // Use a placeholder for error
+                            .into(image_view)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    // Handle the exception, e.g., show an error message or log it.
+                    Snackbar.make(view, "Image loading error: ${e.message}", Snackbar.LENGTH_LONG).show()
                 }
             }
         }
-    }
+        }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

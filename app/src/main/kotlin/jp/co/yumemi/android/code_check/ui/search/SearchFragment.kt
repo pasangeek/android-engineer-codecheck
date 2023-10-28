@@ -2,6 +2,7 @@
  * Copyright © 2021 YUMEMI Inc. All rights reserved.
  */
 package jp.co.yumemi.android.code_check.ui.search
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import dagger.hilt.android.AndroidEntryPoint
 
 import jp.co.yumemi.android.code_check.ui.adapters.GithubRepositoryDetailAdapter
 import jp.co.yumemi.android.code_check.databinding.RepositorySearchBinding
@@ -21,10 +23,11 @@ import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
 /**
  * A Fragment that displays a list of GitHub repositories and handles user interactions.
  */
-class OneFragment : Fragment() {
+@AndroidEntryPoint
+class SearchFragment : Fragment() {
 
 
-    lateinit var _binding: RepositorySearchBinding
+    lateinit var binding: RepositorySearchBinding
     lateinit var viewModel: SearchViewModel
     lateinit var githubRepositoryDetailAdapter: GithubRepositoryDetailAdapter
 
@@ -33,26 +36,26 @@ class OneFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = RepositorySearchBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
-        _binding.vm = viewModel
-        _binding.lifecycleOwner = this
+        binding = RepositorySearchBinding.inflate(inflater, container, false)
 
-        return _binding.root
+        return binding.root
 
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object : GithubRepositoryDetailAdapter.OnItemClickListener {
+        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+        binding.vm = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object :
+            GithubRepositoryDetailAdapter.OnItemClickListener {
             override fun itemClick(item: GithubRepositoryData) {
                 gotoRepositoryFragment(item)
             }
         })
 
-        _binding.searchInputText
+        binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
                 if (action == EditorInfo.IME_ACTION_SEARCH) {
                     editText.text.toString().let {
@@ -63,8 +66,8 @@ class OneFragment : Fragment() {
                 return@setOnEditorActionListener false
             }
 
-        _binding.recyclerView.adapter = githubRepositoryDetailAdapter
-        viewModel.gitHubRepositoryList.observe(requireActivity()) {
+        binding.recyclerView.adapter = githubRepositoryDetailAdapter
+        viewModel.gitHubRepositoryList.observe(viewLifecycleOwner) {
             githubRepositoryDetailAdapter.submitList(it)
         }
     }
@@ -75,7 +78,8 @@ class OneFragment : Fragment() {
      * @param item The selected GithubRepositoryData item.
      */
     fun gotoRepositoryFragment(item: GithubRepositoryData) {
-        val action = OneFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(item)
+        val action =
+            SearchFragmentDirections.actionOneFragmentToRepositoryDetailFragment(repositoryArgument = item)
         findNavController().navigate(action)
     }
 }

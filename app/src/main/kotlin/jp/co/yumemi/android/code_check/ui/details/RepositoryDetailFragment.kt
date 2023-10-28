@@ -1,49 +1,54 @@
-/*
- * Copyright © 2021 YUMEMI Inc. All rights reserved.
- */
 package jp.co.yumemi.android.code_check.ui.details
 
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import coil.load
-import jp.co.yumemi.android.code_check.R
-import jp.co.yumemi.android.code_check.databinding.RepositoryDetailBinding
+import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
+import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
+import jp.co.yumemi.android.code_check.databinding.FragmentRepositoryDetailBinding
+import jp.co.yumemi.android.code_check.ui.details.RepositoryDetailViewModel
+
+
+@AndroidEntryPoint
+class RepositoryDetailFragment : Fragment() {
+    private val args : RepositoryDetailFragmentArgs by navArgs()
+    private lateinit var binding: FragmentRepositoryDetailBinding
+    lateinit var viewModel: RepositoryDetailViewModel
 
 
 
-/**
- * A fragment that displays the details of a repository.
- */
-class RepositoryDetailFragment : Fragment(R.layout.repository_detail) {
 
-    private val args: RepositoryDetailFragmentArgs by navArgs()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentRepositoryDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    private var binding: RepositoryDetailBinding? = null
-    private val _binding get() = binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[RepositoryDetailViewModel::class.java]
+        binding.detailsVM = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        //Log.d("検索した日時", lastSearchDate.toString())//null pointer
+        viewModel.setRepositoryDetails(args.repositoryArgument)
 
-        binding = RepositoryDetailBinding.bind(view)
-        // Retrieve the passed item from the arguments
-        val item = args.item
-        // Load the owner's avatar image
-        _binding.ownerIconView.load(item.owner?.avatarUrl)
-        // Set the repository name
-        _binding.nameView.text = item.name
-        // Set the programming language
-        _binding.languageView.text = item.language
-        // Display the number of stars
-        _binding.starsView.text = getString(R.string.stars_count, item.stargazersCount)
-        // Display the number of watchers
-        _binding.watchersView.text = getString(R.string.watchers_count, item.watchersCount)
-        // Display the number of forks
-        _binding.forksView.text = getString(R.string.forks_count, item.forksCount)
-        // Display the number of open issues
-        _binding.openIssuesView.text = getString(R.string.open_issues_count, item.openIssuesCount)
+        viewModel.gitHubRepositoryDetails.observe(viewLifecycleOwner){
+
+           it.let { Glide.with(this).load(it.owner?.avatarUrl).into(binding.ownerIconView) }
+        }
+
     }
+
+
+
+
 }

@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel class for managing the data and business logic related to the OneFragment.
+ * ViewModel class for managing the data and business logic related to the SearchFragment.
  * Uses dependency injection to retrieve an instance of [GithubRepository] for data retrieval.
  */
 @HiltViewModel

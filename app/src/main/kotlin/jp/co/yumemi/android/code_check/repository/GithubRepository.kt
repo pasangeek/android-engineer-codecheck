@@ -16,23 +16,23 @@ class GithubRepository @Inject constructor(private val githubRepositoryApiServic
     /**
      * Retrieves GitHub account data from the data source based on the provided query.
      *
-     * @param query The search query for repositories.
+     * @param search_query The search query for repositories.
      * @return The response containing GitHub server data, or null if an error occurred.
      */
-    suspend fun getGitHubAccountFromDataSource(query: String): GithubServerResponse? {
+    suspend fun getGitHubAccountFromDataSource(search_query: String): GithubServerResponse? {
         return withContext(Dispatchers.IO) {
-            return@withContext getResponseFromRemoteService(query)
+            return@withContext getResponseFromRemoteService(search_query)
         }
     }
 
     /**
      * Retrieves the response from the remote GitHub API service based on the provided query.
      *
-     * @param query The search query for repositories.
+     * @param response_query The search query for repositories.
      * @return The response containing GitHub server data, or null if an error occurred.
      */
-    private suspend fun getResponseFromRemoteService(query: String): GithubServerResponse? {
-        val response = githubRepositoryApiService.getRepositories(query)
+    private suspend fun getResponseFromRemoteService(response_query: String): GithubServerResponse? {
+        val response = githubRepositoryApiService.getRepositories(response_query)
         if (response.isSuccessful) {
             return response.body()
         }

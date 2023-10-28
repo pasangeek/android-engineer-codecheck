@@ -1,5 +1,6 @@
 package jp.co.yumemi.android.code_check.repository
 
+import android.util.Log
 import jp.co.yumemi.android.code_check.sources.GithubRepositoryApiService
 import jp.co.yumemi.android.code_check.data.model.GithubServerResponse
 import kotlinx.coroutines.Dispatchers
@@ -16,26 +17,38 @@ class GithubRepository @Inject constructor(private val githubRepositoryApiServic
     /**
      * Retrieves GitHub account data from the data source based on the provided query.
      *
-     * @param search_query The search query for repositories.
+     * @param searchQuery The search query for repositories.
      * @return The response containing GitHub server data, or null if an error occurred.
      */
-    suspend fun getGitHubAccountFromDataSource(search_query: String): GithubServerResponse? {
-        return withContext(Dispatchers.IO) {
-            return@withContext getResponseFromRemoteService(search_query)
+    suspend fun getGitHubAccountFromDataSource(searchQuery: String): GithubServerResponse? {
+        try {
+            return withContext(Dispatchers.IO) {
+                return@withContext getResponseFromRemoteService(searchQuery)
+            }
+        } catch (e: Exception) {
+            Log.e("GithubRepository", "Error during data retrieval: ${e.message}")
+            return null
         }
     }
 
     /**
      * Retrieves the response from the remote GitHub API service based on the provided query.
      *
-     * @param response_query The search query for repositories.
+     * @param responseQuery The search query for repositories.
      * @return The response containing GitHub server data, or null if an error occurred.
      */
-    private suspend fun getResponseFromRemoteService(response_query: String): GithubServerResponse? {
-        val response = githubRepositoryApiService.getRepositories(response_query)
-        if (response.isSuccessful) {
-            return response.body()
+    private suspend fun getResponseFromRemoteService(responseQuery: String): GithubServerResponse? {
+        try {
+            val response = githubRepositoryApiService.getRepositories(responseQuery)
+            if (response.isSuccessful) {
+                return response.body()
+            } else {
+                Log.e("GithubRepository", "GitHub API request failed with code: ${response.code()}")
+                return null
+            }
+        } catch (e: Exception) {
+            Log.e("GithubRepository", "Error during API request: ${e.message}")
+            return null
         }
-        return null
     }
 }

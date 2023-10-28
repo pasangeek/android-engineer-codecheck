@@ -53,17 +53,16 @@ class SearchFragment : Fragment() {
             }
         })
 
-        binding?.searchInputText
-            ?.setOnEditorActionListener { editText, action, _ ->
-                if (action == EditorInfo.IME_ACTION_SEARCH) {
-                    editText.text.toString().let {
-                        viewModel.searchResults(it)
-                        Log.d("SearchFragment", "Search initiated with query: $it")
-                    }
-                    return@setOnEditorActionListener true
+        binding?.searchInputText?.setOnEditorActionListener { editText, action, _ ->
+            if (action == EditorInfo.IME_ACTION_SEARCH) {
+                editText.text.toString().let {
+                    viewModel.searchResults(it)
+                    Log.d("SearchFragment", "Search initiated with query: $it")
                 }
-                return@setOnEditorActionListener false
+                return@setOnEditorActionListener true
             }
+            return@setOnEditorActionListener false
+        }
 
         binding?.recyclerView?.adapter = githubRepositoryDetailAdapter
         viewModel.gitHubRepositoryList.observe(viewLifecycleOwner) {

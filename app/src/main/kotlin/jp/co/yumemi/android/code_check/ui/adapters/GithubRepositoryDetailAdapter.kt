@@ -1,5 +1,6 @@
 package jp.co.yumemi.android.code_check.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -32,9 +33,13 @@ class GithubRepositoryDetailAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val gitHubRepositoryItem = getItem(position)
+        try {
+            val gitHubRepositoryItem = getItem(position)
 
-        holder.binding.repositoryNameView.text = gitHubRepositoryItem.name
+            holder.binding.repositoryNameView.text = gitHubRepositoryItem.name
+        } catch (e: Exception) {
+            Log.e("GithubRepositoryDetailAdapter", "Error in onBindViewHolder: ${e.message}")
+        }
     }
 
     inner class ViewHolder(val binding: LayoutItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -44,8 +49,12 @@ class GithubRepositoryDetailAdapter(
          * @param binding The ViewBinding object for the item layout.
          */
         init {
-            itemView.setOnClickListener {
-                itemClickListener.itemClick(getItem(absoluteAdapterPosition))
+            try {
+                itemView.setOnClickListener {
+                    itemClickListener.itemClick(getItem(absoluteAdapterPosition))
+                }
+            } catch (e: Exception) {
+                Log.e("GithubRepositoryDetailAdapter", "Error in click listener: ${e.message}")
             }
         }
     }

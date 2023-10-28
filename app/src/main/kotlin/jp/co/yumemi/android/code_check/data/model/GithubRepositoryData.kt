@@ -3,6 +3,7 @@ package jp.co.yumemi.android.code_check.data.model
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+
 /**
  * Represents a GitHub repository data.
  *
@@ -16,7 +17,6 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class GithubRepositoryData(
-
     val name: String?,
     val owner: Owner?,
     val language: String?,
@@ -26,5 +26,4 @@ data class GithubRepositoryData(
     val watchersCount: Long?,
     val forksCount: Long?,
     val openIssuesCount: Long?,
-
     ) : Parcelable

@@ -26,8 +26,7 @@ import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-
-    lateinit var binding: RepositorySearchBinding
+    private var binding: RepositorySearchBinding? = null
     lateinit var viewModel: SearchViewModel
     lateinit var githubRepositoryDetailAdapter: GithubRepositoryDetailAdapter
 
@@ -38,16 +37,14 @@ class SearchFragment : Fragment() {
     ): View? {
         binding = RepositorySearchBinding.inflate(inflater, container, false)
 
-        return binding.root
-
+        return binding?.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
-        binding.vm = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding?.vm = viewModel
+        binding?.lifecycleOwner = viewLifecycleOwner
         githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object :
             GithubRepositoryDetailAdapter.OnItemClickListener {
             override fun itemClick(item: GithubRepositoryData) {
@@ -55,8 +52,8 @@ class SearchFragment : Fragment() {
             }
         })
 
-        binding.searchInputText
-            .setOnEditorActionListener { editText, action, _ ->
+        binding?.searchInputText
+            ?.setOnEditorActionListener { editText, action, _ ->
                 if (action == EditorInfo.IME_ACTION_SEARCH) {
                     editText.text.toString().let {
                         viewModel.searchResults(it)
@@ -66,7 +63,7 @@ class SearchFragment : Fragment() {
                 return@setOnEditorActionListener false
             }
 
-        binding.recyclerView.adapter = githubRepositoryDetailAdapter
+        binding?.recyclerView?.adapter = githubRepositoryDetailAdapter
         viewModel.gitHubRepositoryList.observe(viewLifecycleOwner) {
             githubRepositoryDetailAdapter.submitList(it)
         }
@@ -81,6 +78,11 @@ class SearchFragment : Fragment() {
         val action =
             SearchFragmentDirections.actionOneFragmentToRepositoryDetailFragment(repositoryArgument = item)
         findNavController().navigate(action)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
 
@@ -101,7 +103,6 @@ val diff_util = object : DiffUtil.ItemCallback<GithubRepositoryData>() {
     ): Boolean {
         return oldItem == newItem
     }
-
 }
 
 

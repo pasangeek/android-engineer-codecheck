@@ -29,42 +29,62 @@ class RepositoryDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRepositoryDetailBinding.inflate(inflater, container, false)
-        Log.d("RepositoryDetailFragment", "Fragment created")
+
+        // Log that the fragment has been created
+        logMessage("Fragment created")
+
+        // Return the root view from data binding or the fallback layout
         return binding?.root ?: inflater.inflate(R.layout.fragment_repository_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Initialize the ViewModel
         viewModel = ViewModelProvider(this)[RepositoryDetailViewModel::class.java]
+
+        // Set the ViewModel for data binding
         binding?.detailsVM = viewModel
         binding?.lifecycleOwner = viewLifecycleOwner
 
+        // Set the repository details in the ViewModel and log the action
         viewModel.setRepositoryDetails(args.repositoryArgument)
-        Log.d("RepositoryDetailFragment", "Repository details set")
+        logMessage("Repository details set")
+
+        // Observe changes in GitHub repository details and load the owner's avatar
         viewModel.gitHubRepositoryDetails.observe(viewLifecycleOwner) { it ->
             it?.let {
                 try {
                     binding?.ownerIconView?.let { image_view ->
+                        // Load the owner's avatar using Glide
                         Glide.with(this)
                             .load(it.owner?.avatarUrl)
                             .error(R.drawable.no_image_background) // Use a placeholder for error
                             .into(image_view)
-                        Log.d("RepositoryDetailFragment", "Image loaded")
+                        logMessage("Image loaded")
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
                     // Handle the exception, e.g., show an error message or log it.
-                    Log.e("RepositoryDetailFragment", "Error loading image: ${e.message}")
+                    logMessage("Error loading image: ${e.message}")
                     Snackbar.make(view, "Image loading error: ${e.message}", Snackbar.LENGTH_LONG).show()
                 }
             }
         }
-        }
-
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        // Clear the binding reference
         binding = null
-        Log.d("RepositoryDetailFragment", "View destroyed")
+
+        // Log that the view has been destroyed
+        logMessage("View destroyed")
+    }
+
+    // Helper function for logging messages with a specified tag
+    private fun logMessage(message: String) {
+        Log.d("RepositoryDetailFragment", message)
     }
 }

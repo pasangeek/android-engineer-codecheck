@@ -12,25 +12,38 @@ import javax.inject.Inject
 @HiltViewModel
 class RepositoryDetailViewModel @Inject constructor(
     val githubRepository: GithubRepository
-): ViewModel() {
+) : ViewModel() {
 
+    // LiveData to hold the details of a GitHub repository
     private val _githubRepositoryDetail = MutableLiveData<GithubRepositoryData>(null)
 
-
+    // LiveData to observe the GitHub repository details
     val gitHubRepositoryDetails: LiveData<GithubRepositoryData>
         get() = _githubRepositoryDetail
 
-
+    // Initialize the ViewModel and log the initialization
     init {
-        Log.d("RepositoryDetailViewModel", "RepositoryDetail ViewModel initialized")
+        logMessage("RepositoryDetail ViewModel initialized")
     }
 
+    /**
+     * Set the details of a GitHub repository and update LiveData.
+     *
+     * @param githubRepositoryData The GitHub repository data to set.
+     */
     fun setRepositoryDetails(githubRepositoryData: GithubRepositoryData) {
         _githubRepositoryDetail.value = githubRepositoryData
-        Log.d("RepositoryDetailViewModel", "Repository details set: $githubRepositoryData")
+        logMessage("Repository details set: $githubRepositoryData")
     }
+
     override fun onCleared() {
         super.onCleared()
-        Log.d("RepositoryDetailViewModel", "ViewModel cleared")
+        // Log when the ViewModel is cleared
+        logMessage("ViewModel cleared")
+    }
+
+    // Helper function for logging messages with a specified tag
+    private fun logMessage(message: String) {
+        Log.d("RepositoryDetailViewModel", message)
     }
 }

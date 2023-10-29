@@ -60,7 +60,7 @@ object NetworkModule {
             .baseUrl(baseUrl)
             .addConverterFactory(converterFactory)
             .client(okHttpClient)
-        Log.d("NetworkModule", "Retrofit instance created with base URL: $baseUrl")
+        logMessage( "Retrofit instance created with base URL: $baseUrl")
         return retrofit.build()
     }
 
@@ -83,13 +83,18 @@ object NetworkModule {
     fun provideGithubRepository(githubRepositoryApiService: GithubRepositoryApiService): GithubRepository {
         try {
             val githubRepository = GithubRepository(githubRepositoryApiService)
-            Log.d("NetworkModule", "GithubRepository provided")
+            logMessage( "GithubRepository provided")
             return githubRepository
         } catch (e: Exception) {
-            Log.e("NetworkModule", "Error while providing GithubRepository: ${e.message}")
+            logMessage( "Error while providing GithubRepository: ${e.message}")
             throw e  // Re-throw the exception for higher-level error handling
         }
 
 
 }
+
+    private fun logMessage(message: String) {
+        Log.d("NetworkModule", message)
+    }
+
 }

@@ -36,35 +36,43 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflating the layout for this fragment
         binding = RepositorySearchBinding.inflate(inflater, container, false)
-
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Initializing the ViewModel
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+        // Setting ViewModel for data binding
         binding?.vm = viewModel
         binding?.lifecycleOwner = viewLifecycleOwner
-        githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object :
-            GithubRepositoryDetailAdapter.OnItemClickListener {
-            override fun itemClick(item: GithubRepositoryData) {
-                gotoRepositoryFragment(item)
-            }
-        })
 
+// Setting up a listener for the search input field
         binding?.searchInputText?.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
+                // Trigger a search when the search action is performed
                 editText.text.toString().let {
                     viewModel.searchResults(it)
-                    Log.d("SearchFragment", "Search initiated with query: $it")
+                    logMessage("Search initiated with query: $it")
                 }
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
+        // Initializing the RecyclerView adapter
+        githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object :
+            GithubRepositoryDetailAdapter.OnItemClickListener {
+            override fun itemClick(item: GithubRepositoryData) {
+                gotoRepositoryFragment(item)
+                logMessage("GitHub repository list updated")
+            }
+        })
 
+// Setting the RecyclerView adapter
         binding?.recyclerView?.adapter = githubRepositoryDetailAdapter
+// Observing changes in the GitHub repository list and updating the adapter
         viewModel.gitHubRepositoryList.observe(viewLifecycleOwner) {
             githubRepositoryDetailAdapter.submitList(it)
             Log.d("SearchFragment", "GitHub repository list updated")
@@ -80,33 +88,21 @@ class SearchFragment : Fragment() {
         val action =
             SearchFragmentDirections.actionOneFragmentToRepositoryDetailFragment(repositoryArgument = item)
         findNavController().navigate(action)
-        Log.d("SearchFragment", "Navigating to RepositoryDetailFragment with item: ${item.name}")
+        logMessage("Navigating to RepositoryDetailFragment with item: ${item.name}")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Clearing the binding reference
         binding = null
-        Log.d("SearchFragment", "View destroyed")
+        logMessage("View destroyed")
+    }
+    // Helper function for logging messages with a specified tag
+    private fun logMessage(message: String) {
+        Log.d("SearchFragment", message)
     }
 }
 
-/**
- * DiffUtil.ItemCallback implementation for comparing [GithubRepositoryData] items in [GithubRepositoryDetailAdapter].
- */
-val diff_util = object : DiffUtil.ItemCallback<GithubRepositoryData>() {
-    override fun areItemsTheSame(
-        oldItem: GithubRepositoryData,
-        newItem: GithubRepositoryData
-    ): Boolean {
-        return oldItem.name == newItem.name
-    }
 
-    override fun areContentsTheSame(
-        oldItem: GithubRepositoryData,
-        newItem: GithubRepositoryData
-    ): Boolean {
-        return oldItem == newItem
-    }
-}
 
 

@@ -36,8 +36,10 @@ class SearchViewModel @Inject constructor(
     application: Application,
     val githubRepository: GithubRepository
 ) : AndroidViewModel(application) {
-
+    // LiveData to hold the list of GitHub repositories
     private val _githubRepositoryList = MutableLiveData<List<GithubRepositoryData>>(null)
+
+    // Call the getGitHubAccountFromDataSource function from the injected githubRepository
     val gitHubRepositoryList: LiveData<List<GithubRepositoryData>> get() = _githubRepositoryList
 
     /**
@@ -47,52 +49,33 @@ class SearchViewModel @Inject constructor(
      * @param inputText The text used for searching GitHub repositories.
      */
     fun searchResults(inputText: String) {
-        Log.d("SearchViewModel", "Searching GitHub repositories with input: $inputText")
+        logMessage( "Searching GitHub repositories with input: $inputText")
         // Call the getGitHubAccountFromDataSource function from the injected githubRepository
         viewModelScope.launch {
             try {
                 val serverResponse: GithubServerResponse? =
                     githubRepository.getGitHubAccountFromDataSource(inputText)
                 if (serverResponse != null) {
-                    Log.d("SearchViewModel", "Search results received: ${serverResponse.items?.size} items")
+                    logMessage( "Search results received: ${serverResponse.items?.size} items")
                     // Update the _githubRepositoryList with the search results
                     _githubRepositoryList.value = serverResponse.items
                 } else {
-                    Log.e("SearchViewModel", "Search results are null or empty")
+                    logMessage( "Search results are null or empty")
                 }
             } catch (e: Exception) {
-                Log.e("SearchViewModel", "Error during search: ${e.message}")
+                logMessage( "Error during search: ${e.message}")
             }
         }
 }
 
-
-
-    private fun hasInternetConnection():Boolean {
-
-        val connectivityManager = getApplication<CoreApplication>().getSystemService(
-            Context.CONNECTIVITY_SERVICE
-        ) as ConnectivityManager
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            val activeNetwork = connectivityManager.activeNetwork ?: return false
-            val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
-            return when {
-                capabilities.hasTransport(TRANSPORT_WIFI) -> true
-                capabilities.hasTransport(TRANSPORT_CELLULAR) -> true
-                capabilities.hasTransport(TRANSPORT_ETHERNET) -> true
-                else -> false
-            }
-        } else {
-            connectivityManager.activeNetworkInfo?.run {
-                return when(type) {
-                    TYPE_WIFI -> true
-                    TYPE_MOBILE -> true
-                    TYPE_ETHERNET -> true
-                    else -> false
-                }
-            }
-        }
-        return false
+    /**
+     * Helper function for logging messages with a specified tag.
+     *
+     * @param message The message to log.
+     */
+    private fun logMessage(message: String) {
+        Log.d("SearchViewModel", message)
     }
+
 }
 

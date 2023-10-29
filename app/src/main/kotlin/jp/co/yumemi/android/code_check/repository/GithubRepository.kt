@@ -26,7 +26,7 @@ class GithubRepository @Inject constructor(private val githubRepositoryApiServic
                 return@withContext getResponseFromRemoteService(searchQuery)
             }
         } catch (e: Exception) {
-            Log.e("GithubRepository", "Error during data retrieval: ${e.message}")
+            logMessage(  "Error during data retrieval: ${e.message}")
             return null
         }
     }
@@ -38,17 +38,22 @@ class GithubRepository @Inject constructor(private val githubRepositoryApiServic
      * @return The response containing GitHub server data, or null if an error occurred.
      */
     private suspend fun getResponseFromRemoteService(responseQuery: String): GithubServerResponse? {
-        try {
+        return try {
             val response = githubRepositoryApiService.getRepositories(responseQuery)
             if (response.isSuccessful) {
-                return response.body()
+                response.body()
             } else {
-                Log.e("GithubRepository", "GitHub API request failed with code: ${response.code()}")
-                return null
+                logMessage(  "GitHub API request failed with code: ${response.code()}")
+                null
             }
         } catch (e: Exception) {
-            Log.e("GithubRepository", "Error during API request: ${e.message}")
-            return null
+            logMessage(  "Error during API request: ${e.message}")
+            null
         }
     }
+
+    private fun logMessage(message: String) {
+        Log.d("GithubRepository", message)
+    }
+
 }

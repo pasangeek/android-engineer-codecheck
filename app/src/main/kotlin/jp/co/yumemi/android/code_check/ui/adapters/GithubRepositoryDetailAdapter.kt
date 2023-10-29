@@ -1,14 +1,13 @@
 package jp.co.yumemi.android.code_check.ui.adapters
 
-import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import jp.co.yumemi.android.code_check.databinding.LayoutItemBinding
-import jp.co.yumemi.android.code_check.ui.search.diff_util
-
 import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
+import jp.co.yumemi.android.code_check.databinding.LayoutItemBinding
 
 /**
  * Interface definition for the click listener of items in the adapter.
@@ -27,19 +26,15 @@ class GithubRepositoryDetailAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = LayoutItemBinding.inflate(inflater, parent, false)
+        // Inflate the item layout and create a ViewHolder
+        val binding = LayoutItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        try {
-            val gitHubRepositoryItem = getItem(position)
-
-            holder.binding.repositoryNameView.text = gitHubRepositoryItem.name
-        } catch (e: Exception) {
-            Log.e("GithubRepositoryDetailAdapter", "Error in onBindViewHolder: ${e.message}")
-        }
+        // Bind data to the ViewHolder
+        val gitHubRepositoryItem = getItem(position)
+        holder.bind(gitHubRepositoryItem)
     }
 
     inner class ViewHolder(val binding: LayoutItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -49,12 +44,38 @@ class GithubRepositoryDetailAdapter(
          * @param binding The ViewBinding object for the item layout.
          */
         init {
-            try {
-                itemView.setOnClickListener {
-                    itemClickListener.itemClick(getItem(absoluteAdapterPosition))
+            // Set a click listener for the item view
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.itemClick(getItem(position))
                 }
-            } catch (e: Exception) {
-                Log.e("GithubRepositoryDetailAdapter", "Error in click listener: ${e.message}")
+            }
+        }
+
+        // Bind data to the ViewHolder
+        fun bind(item: GithubRepositoryData) {
+            binding.repositoryNameView.text = item.name
+        }
+    }
+
+    companion object {
+        // Define a DiffUtil.ItemCallback for efficient updates
+        val diff_util = object : DiffUtil.ItemCallback<GithubRepositoryData>() {
+            override fun areItemsTheSame(
+                oldItem: GithubRepositoryData,
+                newItem: GithubRepositoryData
+            ): Boolean {
+                // Check if items have the same identifier (e.g., name)
+                return oldItem.name == newItem.name
+            }
+
+            override fun areContentsTheSame(
+                oldItem: GithubRepositoryData,
+                newItem: GithubRepositoryData
+            ): Boolean {
+                // Check if the contents of items are the same (data equality)
+                return oldItem == newItem
             }
         }
     }

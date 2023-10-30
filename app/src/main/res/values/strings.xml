@@ -14,5 +14,7 @@
     <string name="watchers_count" translatable="false">%1$d watchers</string>
     <string name="forks_count" translatable="false">%1$d forks</string>
     <string name="open_issues_count">%1$d open issues</string>
-//In the above code, %1$d is the placeholder for the numeric value
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    //In the above code, %1$d is the placeholder for the numeric value
 </resources>

@@ -9,11 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
+import jp.co.yumemi.android.code_check.ui.error.ErrorDialog
+import jp.co.yumemi.android.code_check.common.ErrorState
 
 import jp.co.yumemi.android.code_check.ui.adapters.GithubRepositoryDetailAdapter
 import jp.co.yumemi.android.code_check.databinding.RepositorySearchBinding
@@ -52,10 +54,16 @@ class SearchFragment : Fragment() {
 // Setting up a listener for the search input field
         binding?.searchInputText?.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
-                // Trigger a search when the search action is performed
-                editText.text.toString().let {
-                    viewModel.searchResults(it)
-                    logMessage("Search initiated with query: $it")
+                // Get the text from the input field
+                val searchText = editText.text.toString()
+
+                if (searchText.isEmpty()) {
+                    // Show a toast message if the search input is empty
+                    Toast.makeText(requireContext(), "Search query is empty.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Trigger a search when the search action is performed
+                    viewModel.searchResults(searchText)
+                    logMessage("Search initiated with query: $searchText")
                 }
                 return@setOnEditorActionListener true
             }
@@ -77,6 +85,18 @@ class SearchFragment : Fragment() {
             githubRepositoryDetailAdapter.submitList(it)
             Log.d("SearchFragment", "GitHub repository list updated")
         }
+
+        viewModel.errorLiveData.observe(viewLifecycleOwner) { errorState ->
+            when (errorState) {
+                is ErrorState.Error -> {
+                    val dialogFragment = ErrorDialog(errorState.message)
+                    dialogFragment.show(childFragmentManager, "NetworkErrorDialog")
+                }
+                // Handle other error states as needed
+            }
+        }
+
+
     }
 
     /**
@@ -101,8 +121,10 @@ class SearchFragment : Fragment() {
     private fun logMessage(message: String) {
         Log.d("SearchFragment", message)
     }
-}
 
+
+
+}
 
 
 

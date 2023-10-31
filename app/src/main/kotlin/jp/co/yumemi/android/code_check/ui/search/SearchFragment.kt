@@ -96,6 +96,19 @@ class SearchFragment : Fragment() {
             }
         }
 
+// Observe the loading state and show/hide the progress bar
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                // Show the progress bar
+                binding!!.progressBar.visibility = View.VISIBLE
+            } else {
+                // Hide the progress bar
+                binding!!.progressBar.visibility = View.GONE
+            }
+        }
+
+
+
 
     }
 

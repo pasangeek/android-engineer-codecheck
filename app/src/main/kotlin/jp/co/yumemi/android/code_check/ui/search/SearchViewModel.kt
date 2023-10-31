@@ -35,6 +35,11 @@ class SearchViewModel @Inject constructor(
     val gitHubRepositoryList: LiveData<List<GithubRepositoryData>> get() = _githubRepositoryList
     private val _errorLiveData = MutableLiveData<ErrorState>()
     val errorLiveData: LiveData<ErrorState> get() = _errorLiveData
+
+    // Add a LiveData for the loading state
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
+
     fun searchResults(inputText: String) {
         if (!isInternetConnectionAvailable()) {
             logMessage("No internet connection available.")
@@ -45,7 +50,8 @@ class SearchViewModel @Inject constructor(
         }
 
         logMessage("Searching GitHub repositories with input: $inputText")
-
+        // Set the loading state to true when searching begins
+        _loading.value = true
         viewModelScope.launch {
             try {
                 val serverResponse: GithubServerResponse? =
@@ -54,12 +60,19 @@ class SearchViewModel @Inject constructor(
                 if (serverResponse != null) {
                     logMessage("Search results received: ${serverResponse.items?.size} items")
                     _githubRepositoryList.value = serverResponse.items
+
+
+
                 } else {
                     showSearchResultsEmptyMessage()
                     logMessage("Search results are null or empty")
                 }
             } catch (e: Exception) {
                 logMessage("Error during search: ${e.message}")
+            }
+            finally {
+                // Set the loading state to false when the search is complete
+                _loading.value = false
             }
         }
     }
@@ -68,9 +81,6 @@ class SearchViewModel @Inject constructor(
 
 
     }
-
-
-
 
     private fun isInternetConnectionAvailable(): Boolean {
         val connectivityManager = getApplication<Application>().getSystemService(ConnectivityManager::class.java)

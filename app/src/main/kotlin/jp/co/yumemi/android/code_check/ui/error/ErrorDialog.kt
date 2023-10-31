@@ -22,12 +22,10 @@ class ErrorDialog(private val errorMessage: String) : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentErrorDialogBinding.inflate(inflater, container, false)
         val view = binding!!.root
-
-
 
         binding!!.errorMessage.text = errorMessage
 
@@ -37,6 +35,7 @@ class ErrorDialog(private val errorMessage: String) : DialogFragment() {
 
         return view
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         // Clearing the binding reference

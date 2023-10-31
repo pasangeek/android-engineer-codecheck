@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
 import jp.co.yumemi.android.code_check.databinding.LayoutItemBinding
 
@@ -22,7 +23,7 @@ class GithubRepositoryDetailAdapter(
      * @param item The clicked GithubRepositoryData item.
      */
     interface OnItemClickListener {
-        fun itemClick(item: GithubRepositoryData)
+        fun itemClick(repo: GithubRepositoryData)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,6 +36,7 @@ class GithubRepositoryDetailAdapter(
         // Bind data to the ViewHolder
         val gitHubRepositoryItem = getItem(position)
         holder.bind(gitHubRepositoryItem)
+
     }
 
     inner class ViewHolder(val binding: LayoutItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -54,8 +56,15 @@ class GithubRepositoryDetailAdapter(
         }
 
         // Bind data to the ViewHolder
-        fun bind(item: GithubRepositoryData) {
-            binding.repositoryNameView.text = item.name
+        fun bind(repo: GithubRepositoryData) {
+            with(binding){
+                Glide.with(itemView.context)
+                    .load(repo.owner?.avatarUrl)
+                    .into(ivOwner)
+                repositoryNameView.text = repo.name
+            }
+
+
         }
     }
 

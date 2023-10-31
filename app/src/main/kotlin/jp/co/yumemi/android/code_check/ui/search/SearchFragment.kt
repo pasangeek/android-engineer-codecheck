@@ -72,8 +72,8 @@ class SearchFragment : Fragment() {
         // Initializing the RecyclerView adapter
         githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object :
             GithubRepositoryDetailAdapter.OnItemClickListener {
-            override fun itemClick(item: GithubRepositoryData) {
-                gotoRepositoryFragment(item)
+            override fun itemClick(repo: GithubRepositoryData) {
+                gotoRepositoryFragment(repo)
                 logMessage("GitHub repository list updated")
             }
         })

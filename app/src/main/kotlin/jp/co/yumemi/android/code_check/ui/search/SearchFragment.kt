@@ -10,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.ui.error.ErrorDialog
 import jp.co.yumemi.android.code_check.common.ErrorState
@@ -21,6 +23,7 @@ import jp.co.yumemi.android.code_check.ui.adapters.GithubRepositoryDetailAdapter
 import jp.co.yumemi.android.code_check.databinding.RepositorySearchBinding
 
 import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
+
 
 
 /**
@@ -41,6 +44,9 @@ class SearchFragment : Fragment() {
         // Inflating the layout for this fragment
         binding = RepositorySearchBinding.inflate(inflater, container, false)
         return binding?.root
+
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,6 +75,8 @@ class SearchFragment : Fragment() {
             }
             return@setOnEditorActionListener false
         }
+
+
         // Initializing the RecyclerView adapter
         githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object :
             GithubRepositoryDetailAdapter.OnItemClickListener {
@@ -77,12 +85,15 @@ class SearchFragment : Fragment() {
                 logMessage("GitHub repository list updated")
             }
         })
-
+        val layoutManager = LinearLayoutManager(context)
+        binding?.recyclerView?.layoutManager =layoutManager
 // Setting the RecyclerView adapter
         binding?.recyclerView?.adapter = githubRepositoryDetailAdapter
 // Observing changes in the GitHub repository list and updating the adapter
-        viewModel.gitHubRepositoryList.observe(viewLifecycleOwner) {
+        viewModel.gitHubRepositoryList.observe(viewLifecycleOwner) { it ->
             githubRepositoryDetailAdapter.submitList(it)
+            // Check if the list is empty and set the visibility of the "empty" layout
+
             Log.d("SearchFragment", "GitHub repository list updated")
         }
 
@@ -101,9 +112,11 @@ class SearchFragment : Fragment() {
             if (isLoading) {
                 // Show the progress bar
                 binding!!.progressBar.visibility = View.VISIBLE
+
             } else {
                 // Hide the progress bar
                 binding!!.progressBar.visibility = View.GONE
+
             }
         }
 

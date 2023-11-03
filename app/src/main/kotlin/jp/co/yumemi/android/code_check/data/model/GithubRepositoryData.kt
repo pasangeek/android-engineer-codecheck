@@ -17,13 +17,17 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class GithubRepositoryData(
+
     val name: String?,
     val owner: Owner?,
+    @SerializedName("language")
     val language: String?,
     @SerializedName("stargazers_count")
     val stargazersCount: Long?,
     @SerializedName("watchers_count")
     val watchersCount: Long?,
+    @SerializedName("forks_count")
     val forksCount: Long?,
-    val openIssuesCount: Long?,
+    @SerializedName("open_issues_count")
+    val openIssuesCount: Long?
     ) : Parcelable

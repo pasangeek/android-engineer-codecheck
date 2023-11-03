@@ -11,66 +11,64 @@
     </data>
 
 
-    <!-- Root ConstraintLayout -->
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.TopActivity">
-    <!-- Search Bar CardView -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/searchBar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_margin="12dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <!-- TextInputLayout for Search Input -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/searchInputLayout"
-            style="@style/TextInputLayoutNoBorder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:importantForAutofill="no"
-            app:endIconMode="clear_text"
-            app:endIconTint="@android:color/darker_gray"
-            app:hintTextColor="@android:color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:startIconDrawable="@android:drawable/ic_menu_search"
-            app:startIconTint="@android:color/darker_gray">
+    tools:context=".activities.TopActivity"
+    android:fitsSystemWindows="true">
 
-            <com.google.android.material.textfield.TextInputEditText
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_search"
+        android:orientation="horizontal">
+        <!-- TextInputLayout for Search Input -->
+
+            <EditText
                 android:id="@+id/searchInputText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/content_style_search_bar"
+
+                android:layout_gravity="center"
                 android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="10dp"
                 android:hint="@string/searchInputText_hint"
                 android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:textSize="12sp" />
+                android:padding="16dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:singleLine="true" />
 
-        </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+    </FrameLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
     <!-- RecyclerView for displaying search results -->
-
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchBar" />
-
+        android:layout_width="match_parent"
+        android:layout_height="630dp"
+        android:layout_margin="10dp"
+        app:layout_anchor="@+id/progressBar"
+        app:layout_anchorGravity="start|bottom" />
+    </androidx.core.widget.NestedScrollView>
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -82,5 +80,6 @@
         app:layout_constraintStart_toStartOf="@+id/recyclerView"
         app:layout_constraintTop_toBottomOf="@+id/searchBar" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

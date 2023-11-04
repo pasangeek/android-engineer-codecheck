@@ -19,23 +19,11 @@
     <color name="fab_bg">#999999</color>
     <color name="git_green">#6CFF54</color>
     <color name="git_black">#1C1C1C</color>
-
     <color name="card_bg">#E6E6E6</color>
     <color name="text_color">#1C1C1C</color>
     <color name="text_color_light">#FFFFFF</color>
-
     <color name="border_stroke">#999999</color>
-    <color name="mtrl_textinput_default_box_stroke_color">#999999</color>
-
-    <color name="dash_bg">#121212</color>
-    <color name="dash_card">#1C1C1C</color>
-    <color name="dash_text">#FFFFFF</color>
-    <color name="dash_text_light">#656565</color>
-    <color name="red_follow">#DB5151</color>
-    <color name="purple_follow">#DA8BFF</color>
-
     <color name="translucent">#00000000</color>
-
     <color name="textColor">@color/black</color> <!-- For the light theme -->
     <color name="textColorDark">@color/white</color> <!-- For the dark theme -->
 

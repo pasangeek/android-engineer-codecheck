@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -45,6 +45,7 @@ class SearchFragment : Fragment() {
         // Inflating the layout for this fragment
         binding = RepositorySearchBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+        binding!!.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding?.vm = viewModel
         binding?.lifecycleOwner = viewLifecycleOwner
         return binding?.root
@@ -55,34 +56,32 @@ class SearchFragment : Fragment() {
 
         initializeRecycleViewAdapter()
         initiateGithubAccountAdapter()
-        initializeError()
+        initializeErrorDialog()
         initializeProgressBar()
 
     }
     private fun initializeSearch() {
-        binding?.searchInputText?.setOnEditorActionListener { editText, action, _ ->
-            if (action == EditorInfo.IME_ACTION_SEARCH) {
-                // Get the text from the input field
-                val searchText = editText.text.toString()
-
-                if (searchText.isEmpty()) {
-                    // Show a toast message if the search input is empty
-                    Toast.makeText(requireContext(), "Search query is empty.", Toast.LENGTH_SHORT)
-                        .show()
+        binding?.searchInputText?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query.isNullOrEmpty()) {
+                    // Show an error message when the search input is empty
+                    viewModel._errorLiveData.value = ErrorState.Error("Search input is empty")
                 } else {
                     // Trigger a search when the search action is performed
-                    viewModel.searchResults(searchText)
-                    logMessage("Search initiated with query: $searchText")
+                    viewModel.searchResults(query)
+                    logMessage("Search initiated with query: $query")
 
                     // Hide the keyboard after initiating the search
                     hideKeyboard()
                 }
-                return@setOnEditorActionListener true
+                return true
             }
-            return@setOnEditorActionListener false
-        }
-    }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Handle text changes as needed
+                return false
+            }
 
+        }) }
     private fun initializeRecycleViewAdapter() {
         // Initializing the RecyclerView adapter
         githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object :
@@ -95,8 +94,8 @@ class SearchFragment : Fragment() {
 
     }
     private fun initiateGithubAccountAdapter() {
-        val layoutManager = LinearLayoutManager(context)
-        binding?.recyclerView?.layoutManager = layoutManager
+
+
 // Setting the RecyclerView adapter
         binding?.recyclerView?.adapter = githubRepositoryDetailAdapter
 // Observing changes in the GitHub repository list and updating the adapter
@@ -108,17 +107,23 @@ class SearchFragment : Fragment() {
 
         initializeSearch()
     }
-    private fun initializeError() {
+    private fun initializeErrorDialog() {
         viewModel.errorLiveData.observe(viewLifecycleOwner) { errorState ->
             when (errorState) {
                 is ErrorState.Error -> {
                     val dialogFragment = ErrorDialog(errorState.message)
                     dialogFragment.show(childFragmentManager, "NetworkErrorDialog")
                 }
+                    is ErrorState.InputError ->{
+
+                        binding?.errorMessageTextView?.text = errorState.message
+                    }
+                }
+
                 // Handle other error states as needed
             }
         }
-    }
+
 
     private fun initializeProgressBar() {
         // Observe the loading state and show/hide the progress bar

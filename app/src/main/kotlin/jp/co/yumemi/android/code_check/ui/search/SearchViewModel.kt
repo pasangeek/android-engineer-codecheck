@@ -33,7 +33,7 @@ class SearchViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
     private val _githubRepositoryList = MutableLiveData<List<GithubRepositoryData>>(null)
     val gitHubRepositoryList: LiveData<List<GithubRepositoryData>> get() = _githubRepositoryList
-    private val _errorLiveData = MutableLiveData<ErrorState>()
+    val _errorLiveData = MutableLiveData<ErrorState>()
     val errorLiveData: LiveData<ErrorState> get() = _errorLiveData
 
     // Add a LiveData for the loading state

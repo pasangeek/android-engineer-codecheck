@@ -62,6 +62,9 @@ class RepositoryDetailFragment : Fragment() {
                             .error(R.drawable.no_image_background) // Use a placeholder for error
                             .into(image_view)
                         logMessage("Image loaded")
+
+
+
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

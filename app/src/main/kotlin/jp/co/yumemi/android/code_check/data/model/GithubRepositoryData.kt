@@ -30,6 +30,6 @@ data class GithubRepositoryData(
     val forksCount: Long?,
     @SerializedName("open_issues_count")
     val openIssuesCount: Long?,
-    val description: String?
+
 
     ) : Parcelable

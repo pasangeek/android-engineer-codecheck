@@ -12,11 +12,18 @@
 
     <string name="stars_count" translatable="true">%1$d stars</string>
     <string name="watchers_count" translatable="true">%1$d watchers</string>
+    <string name="description" translatable="true">%1$d description</string>
     <string name="forks_count" translatable="true">%1$d forks</string>
     <string name="open_issues_count">%1$d open issues</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="content_description_image_user" />
     <string name="yumemi">Yumemi</string>
+    <string name="owner_s_profile_image">Owner\'s Profile Image</string>
+    <string name="back_button">Back Button</string>
+    <string name="navigate_back">Navigate Back</string>
+    <string name="owner_image">Owner_image</string>
+    <string name="close">Close</string>
+    <string name="an_error_occurred">An error occurred.</string>
     //In the above code, %1$d is the placeholder for the numeric value
 </resources>

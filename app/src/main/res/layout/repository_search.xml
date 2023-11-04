@@ -11,75 +11,77 @@
     </data>
 
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.TopActivity"
-    android:fitsSystemWindows="true">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/bg_search"
-        android:orientation="horizontal">
-        <!-- TextInputLayout for Search Input -->
-
-            <EditText
-                android:id="@+id/searchInputText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/content_style_search_bar"
-
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:drawableStart="@drawable/ic_search"
-                android:drawablePadding="10dp"
-                android:hint="@string/searchInputText_hint"
-                android:imeOptions="actionSearch"
-                android:padding="16dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:singleLine="true" />
-
-
-
-    </LinearLayout>
-    </FrameLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-    <!-- RecyclerView for displaying search results -->
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="630dp"
-        android:layout_margin="10dp"
-        app:layout_anchor="@+id/progressBar"
-        app:layout_anchorGravity="start|bottom" />
-    </androidx.core.widget.NestedScrollView>
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/recyclerView"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+        android:fitsSystemWindows="true"
+        tools:context=".activities.TopActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+
+                    android:orientation="horizontal">
+                    <!-- TextInputLayout for Search Input -->
+
+                    <EditText
+                        android:id="@+id/searchInputText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_search"
+                        android:drawableStart="@drawable/repo_search"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/searchInputText_hint"
+                        android:imeOptions="actionSearch"
+                        android:padding="16dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:singleLine="true" />
+
+
+                </LinearLayout>
+            </FrameLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+        <!-- RecyclerView for displaying search results -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="630dp"
+                android:layout_margin="10dp"
+                app:layout_anchor="@+id/progressBar"
+                app:layout_anchorGravity="start|bottom" />
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/recyclerView"
+            app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

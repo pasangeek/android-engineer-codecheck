@@ -23,13 +23,13 @@ data class GithubRepositoryData(
     @SerializedName("language")
     val language: String?,
     @SerializedName("stargazers_count")
-    val stargazersCount: Long?,
+    val stargazersCount: String?,
     @SerializedName("watchers_count")
-    val watchersCount: Long?,
+    val watchersCount: String?,
     @SerializedName("forks_count")
-    val forksCount: Long?,
+    val forksCount: String?,
     @SerializedName("open_issues_count")
-    val openIssuesCount: Long?,
+    val openIssuesCount: String?,
 
 
     ) : Parcelable

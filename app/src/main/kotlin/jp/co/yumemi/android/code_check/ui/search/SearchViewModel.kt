@@ -29,12 +29,12 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     application: Application,
-    val githubRepository: GithubRepository,
+    private val githubRepository: GithubRepository,
 ) : AndroidViewModel(application) {
     private val _githubRepositoryList = MutableLiveData<List<GithubRepositoryData>>(null)
     val gitHubRepositoryList: LiveData<List<GithubRepositoryData>> get() = _githubRepositoryList
-    val _errorLiveData = MutableLiveData<ErrorState>()
-    val errorLiveData: LiveData<ErrorState> get() = _errorLiveData
+    var errorState = MutableLiveData<ErrorState>()
+    val errorLiveData: LiveData<ErrorState> get() = errorState
 
     // Add a LiveData for the loading state
     private val _loading = MutableLiveData<Boolean>()
@@ -43,7 +43,7 @@ class SearchViewModel @Inject constructor(
     fun searchResults(inputText: String) {
         if (!isInternetConnectionAvailable()) {
             logMessage("No internet connection available.")
-            _errorLiveData.value = ErrorState.Error("No internet connection available")
+            errorState.value = ErrorState.Error("No internet connection available")
          // showErrorDialog("No internet connection available.")
 
             return
@@ -58,7 +58,7 @@ class SearchViewModel @Inject constructor(
                     githubRepository.getGitHubAccountFromDataSource(inputText)
 
                 if (serverResponse != null) {
-                    logMessage("Search results received: ${serverResponse.items?.size} items")
+                    logMessage("Search results received: ${serverResponse.items.size} items")
                     _githubRepositoryList.value = serverResponse.items
 
 

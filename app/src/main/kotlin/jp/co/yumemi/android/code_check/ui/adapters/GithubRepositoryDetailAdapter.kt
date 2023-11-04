@@ -39,7 +39,7 @@ class GithubRepositoryDetailAdapter(
 
     }
 
-    inner class ViewHolder(val binding: LayoutItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: LayoutItemBinding) : RecyclerView.ViewHolder(binding.root) {
         /**
          * ViewHolder class for the adapter. Represents an item view in the RecyclerView.
          *

@@ -3,24 +3,24 @@
  */
 package jp.co.yumemi.android.code_check.ui.search
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import jp.co.yumemi.android.code_check.ui.error.ErrorDialog
 import jp.co.yumemi.android.code_check.common.ErrorState
-
-import jp.co.yumemi.android.code_check.ui.adapters.GithubRepositoryDetailAdapter
-import jp.co.yumemi.android.code_check.databinding.RepositorySearchBinding
-
 import jp.co.yumemi.android.code_check.data.model.GithubRepositoryData
+import jp.co.yumemi.android.code_check.databinding.RepositorySearchBinding
+import jp.co.yumemi.android.code_check.ui.adapters.GithubRepositoryDetailAdapter
+import jp.co.yumemi.android.code_check.ui.error.ErrorDialog
 
 
 /**
@@ -31,7 +31,7 @@ class SearchFragment : Fragment() {
 
     private var binding: RepositorySearchBinding? = null
     lateinit var viewModel: SearchViewModel
-    lateinit var githubRepositoryDetailAdapter: GithubRepositoryDetailAdapter
+    private lateinit var githubRepositoryDetailAdapter: GithubRepositoryDetailAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,18 +40,24 @@ class SearchFragment : Fragment() {
     ): View? {
         // Inflating the layout for this fragment
         binding = RepositorySearchBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+        binding!!.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding?.vm = viewModel
+        binding?.lifecycleOwner = viewLifecycleOwner
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Initializing the ViewModel
-        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
-        // Setting ViewModel for data binding
-        binding?.vm = viewModel
-        binding?.lifecycleOwner = viewLifecycleOwner
 
-// Setting up a listener for the search input field
+        initializeRecycleViewAdapter()
+        initiateGithubAccountAdapter()
+        initializeErrorDialog()
+        initializeProgressBarAndAnimation()
+
+    }
+
+    private fun initializeSearch() {
         binding?.searchInputText?.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 // Get the text from the input field
@@ -59,57 +65,85 @@ class SearchFragment : Fragment() {
 
                 if (searchText.isEmpty()) {
                     // Show a toast message if the search input is empty
-                    Toast.makeText(requireContext(), "Search query is empty.", Toast.LENGTH_SHORT).show()
+                    viewModel.errorState.value = ErrorState.Error("search input is empty")
                 } else {
                     // Trigger a search when the search action is performed
                     viewModel.searchResults(searchText)
                     logMessage("Search initiated with query: $searchText")
+
+                    // Hide the keyboard after initiating the search
+                    hideKeyboard()
                 }
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
+    }
+
+    private fun initializeRecycleViewAdapter() {
         // Initializing the RecyclerView adapter
-        githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object :
+        this.githubRepositoryDetailAdapter = GithubRepositoryDetailAdapter(object :
             GithubRepositoryDetailAdapter.OnItemClickListener {
-            override fun itemClick(item: GithubRepositoryData) {
-                gotoRepositoryFragment(item)
+            override fun itemClick(repo: GithubRepositoryData) {
+                gotoRepositoryFragment(repo)
                 logMessage("GitHub repository list updated")
             }
         })
+
+    }
+
+    private fun initiateGithubAccountAdapter() {
 
 // Setting the RecyclerView adapter
         binding?.recyclerView?.adapter = githubRepositoryDetailAdapter
 // Observing changes in the GitHub repository list and updating the adapter
         viewModel.gitHubRepositoryList.observe(viewLifecycleOwner) {
             githubRepositoryDetailAdapter.submitList(it)
+            // Check if the list is empty and set the visibility of the "empty" layout
             Log.d("SearchFragment", "GitHub repository list updated")
         }
 
+        initializeSearch()
+    }
+
+    private fun initializeErrorDialog() {
         viewModel.errorLiveData.observe(viewLifecycleOwner) { errorState ->
             when (errorState) {
                 is ErrorState.Error -> {
-                    val dialogFragment = ErrorDialog(errorState.message)
+                    val dialogFragment = ErrorDialog(errorState.message,viewModel)
                     dialogFragment.show(childFragmentManager, "NetworkErrorDialog")
                 }
-                // Handle other error states as needed
-            }
-        }
 
-// Observe the loading state and show/hide the progress bar
+                is ErrorState.InputError -> {
+
+                    binding?.errorMessageTextView?.text = errorState.message
+                }
+            }
+
+            // Handle other error states as needed
+        }
+    }
+
+
+    private fun initializeProgressBarAndAnimation() {
+        // Observe the loading state and show/hide the progress bar
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
                 // Show the progress bar
                 binding!!.progressBar.visibility = View.VISIBLE
+                binding!!.animationView.visibility = View.VISIBLE
             } else {
                 // Hide the progress bar
                 binding!!.progressBar.visibility = View.GONE
+                binding!!.animationView.visibility = View.GONE
             }
         }
+    }
 
-
-
-
+    private fun hideKeyboard() {
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding?.searchInputText?.windowToken, 0)
     }
 
     /**
@@ -130,11 +164,11 @@ class SearchFragment : Fragment() {
         binding = null
         logMessage("View destroyed")
     }
+
     // Helper function for logging messages with a specified tag
     private fun logMessage(message: String) {
         Log.d("SearchFragment", message)
     }
-
 
 
 }

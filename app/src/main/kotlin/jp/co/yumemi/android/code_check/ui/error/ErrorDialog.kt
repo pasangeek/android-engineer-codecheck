@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import jp.co.yumemi.android.code_check.databinding.FragmentErrorDialogBinding
+import jp.co.yumemi.android.code_check.ui.search.SearchViewModel
 
 
 /**
@@ -14,7 +16,8 @@ import jp.co.yumemi.android.code_check.databinding.FragmentErrorDialogBinding
  * Use the [ErrorDialog.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ErrorDialog(private val errorMessage: String) : DialogFragment() {
+class ErrorDialog(private val errorMessage: String, private val viewModel: SearchViewModel) :
+    DialogFragment() {
 
     private var binding: FragmentErrorDialogBinding? = null
 
@@ -25,22 +28,28 @@ class ErrorDialog(private val errorMessage: String) : DialogFragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentErrorDialogBinding.inflate(inflater, container, false)
+
+
         val view = binding!!.root
 
         binding!!.errorMessage.text = errorMessage
-
-        binding!!.closeButton.setOnClickListener {
-            dismiss()
-        }
+        backtoHomePageButton()
 
         return view
+    }
+
+    private fun backtoHomePageButton() {
+        binding!!.closeButton.setOnClickListener {
+
+            dismiss()
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         // Clearing the binding reference
         binding = null
-
+        viewModel.errorState.value = null
     }
 
 }

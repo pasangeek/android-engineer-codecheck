@@ -8,7 +8,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -43,7 +42,7 @@ class SearchViewModel @Inject constructor(
     fun searchResults(inputText: String) {
         if (!isInternetConnectionAvailable()) {
             logMessage("No internet connection available.")
-            errorState.value = ErrorState.Error("No internet connection available")
+            errorState.value = ErrorState.NetworkError("No internet connection available")
          // showErrorDialog("No internet connection available.")
 
             return
@@ -68,7 +67,7 @@ class SearchViewModel @Inject constructor(
                     logMessage("Search results are null or empty")
                 }
             } catch (e: Exception) {
-                logMessage("Error during search: ${e.message}")
+                logMessage("NetworkError during search: ${e.message}")
             }
             finally {
                 // Set the loading state to false when the search is complete
@@ -77,8 +76,8 @@ class SearchViewModel @Inject constructor(
         }
     }
     private fun showSearchResultsEmptyMessage() {
-        Toast.makeText(getApplication(), "Search results are null or empty", Toast.LENGTH_SHORT).show()
 
+      errorState.value = ErrorState.NetworkError("Search results are null or empty")
 
     }
 

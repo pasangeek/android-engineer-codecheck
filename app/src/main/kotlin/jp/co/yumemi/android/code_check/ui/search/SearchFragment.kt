@@ -64,8 +64,8 @@ class SearchFragment : Fragment() {
                 val searchText = editText.text.toString()
 
                 if (searchText.isEmpty()) {
-                    // Show a toast message if the search input is empty
-                    viewModel.errorState.value = ErrorState.Error("search input is empty")
+                    // Show a message if the search input is empty
+                    viewModel.errorState.value = ErrorState.NetworkError("search input is empty")
                 } else {
                     // Trigger a search when the search action is performed
                     viewModel.searchResults(searchText)
@@ -109,8 +109,8 @@ class SearchFragment : Fragment() {
     private fun initializeErrorDialog() {
         viewModel.errorLiveData.observe(viewLifecycleOwner) { errorState ->
             when (errorState) {
-                is ErrorState.Error -> {
-                    val dialogFragment = ErrorDialog(errorState.message,viewModel)
+                is ErrorState.NetworkError -> {
+                    val dialogFragment = ErrorDialog(errorState.message, viewModel)
                     dialogFragment.show(childFragmentManager, "NetworkErrorDialog")
                 }
 

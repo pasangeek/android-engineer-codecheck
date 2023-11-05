@@ -78,7 +78,7 @@ class RepositoryDetailFragment : Fragment() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                     // Handle the exception, e.g., show an error message or log it.
-                    logMessage("Error loading image: ${e.message}")
+                    logMessage("NetworkError loading image: ${e.message}")
                     view?.let { it1 ->
                         Snackbar.make(
                             it1,

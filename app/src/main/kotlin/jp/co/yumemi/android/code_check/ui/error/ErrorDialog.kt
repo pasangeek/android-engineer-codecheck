@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import jp.co.yumemi.android.code_check.databinding.FragmentErrorDialogBinding
 import jp.co.yumemi.android.code_check.ui.search.SearchViewModel
 
@@ -31,14 +30,15 @@ class ErrorDialog(private val errorMessage: String, private val viewModel: Searc
 
 
         val view = binding!!.root
-
+        // Set the error message in the view
         binding!!.errorMessage.text = errorMessage
-        backtoHomePageButton()
+        backToHomePageButton()
 
         return view
     }
 
-    private fun backtoHomePageButton() {
+    private fun backToHomePageButton() {
+        // Attach the click listener to the "close" button
         binding!!.closeButton.setOnClickListener {
 
             dismiss()
@@ -49,6 +49,7 @@ class ErrorDialog(private val errorMessage: String, private val viewModel: Searc
         super.onDestroyView()
         // Clearing the binding reference
         binding = null
+        // Reset the error state in the ViewModel to null
         viewModel.errorState.value = null
     }
 

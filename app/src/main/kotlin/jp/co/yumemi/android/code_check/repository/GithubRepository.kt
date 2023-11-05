@@ -26,7 +26,7 @@ class GithubRepository @Inject constructor(private val githubRepositoryApiServic
                 return@withContext getResponseFromRemoteService(searchQuery)
             }
         } catch (e: Exception) {
-            logMessage(  "Error during data retrieval: ${e.message}")
+            logMessage(  "NetworkError during data retrieval: ${e.message}")
             return null
         }
     }
@@ -47,7 +47,7 @@ class GithubRepository @Inject constructor(private val githubRepositoryApiServic
                 null
             }
         } catch (e: Exception) {
-            logMessage(  "Error during API request: ${e.message}")
+            logMessage(  "NetworkError during API request: ${e.message}")
             null
         }
     }

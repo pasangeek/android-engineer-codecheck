@@ -15,18 +15,6 @@ import java.util.*
  */
 @AndroidEntryPoint
 class TopActivity : AppCompatActivity(R.layout.activity_top) {
-    /**
-     * This companion object stores the last search date.
-     * It is used to keep track of the date of the most recent search.
-     */
-    companion object {
 
-        /**
-         * The last search date.
-         * This property is initially uninitialized (lateinit).
-         * It will be assigned a value at runtime.
-         * This is a null value since its not used
-         */
-        //lateinit var lastSearchDate: Date
-    }
+
 }

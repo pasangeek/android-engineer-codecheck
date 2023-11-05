@@ -86,7 +86,7 @@ object NetworkModule {
             logMessage( "GithubRepository provided")
             return githubRepository
         } catch (e: Exception) {
-            logMessage( "Error while providing GithubRepository: ${e.message}")
+            logMessage( "NetworkError while providing GithubRepository: ${e.message}")
             throw e  // Re-throw the exception for higher-level error handling
         }
 

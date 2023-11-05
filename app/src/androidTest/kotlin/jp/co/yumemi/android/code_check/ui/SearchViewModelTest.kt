@@ -46,7 +46,7 @@ fun testSearchResultsSuccess() {
         runBlocking {
             val inputText = "u"
             val serverResponse = GithubServerResponse(
-                total_count = listOf(0), incomplete_results = false, listOf(
+                total_count = 0, incomplete_results = false, listOf(
                     GithubRepositoryData(
                         name = "Test Repository", // Provide a name
                         owner = Owner(avatarUrl = "https://avatars.githubusercontent.com/u/10928?v=4"), // Provide an owner or relevant data
@@ -73,7 +73,7 @@ fun testSearchResultsSuccess() {
         // Mock empty search results
         runBlocking {
         val inputText = "u"
-        val serverResponse = GithubServerResponse( total_count = emptyList(), // Provide a placeholder value for total_count
+        val serverResponse = GithubServerResponse( total_count = 0, // Provide a placeholder value for total_count
             incomplete_results = false, // Provide a value for incomplete_results
             items = emptyList())
         `when`(githubRepository.getGitHubAccountFromDataSource(inputText)).thenReturn(serverResponse)

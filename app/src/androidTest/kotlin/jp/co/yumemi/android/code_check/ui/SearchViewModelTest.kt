@@ -46,7 +46,7 @@ fun testSearchResultsSuccess() {
         runBlocking {
             val inputText = "u"
             val serverResponse = GithubServerResponse(
-                total_count = listOf(1), incomplete_results = false, listOf(
+                total_count = listOf(0), incomplete_results = false, listOf(
                     GithubRepositoryData(
                         name = "Test Repository", // Provide a name
                         owner = Owner(avatarUrl = "https://avatars.githubusercontent.com/u/10928?v=4"), // Provide an owner or relevant data

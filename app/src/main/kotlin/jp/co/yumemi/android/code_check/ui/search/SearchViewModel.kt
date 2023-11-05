@@ -77,8 +77,8 @@ class SearchViewModel @Inject constructor(
         }
     }
     private fun showSearchResultsEmptyMessage() {
-        Toast.makeText(getApplication(), "Search results are null or empty", Toast.LENGTH_SHORT).show()
 
+      errorState.value = ErrorState.Error("Search results are null or empty")
 
     }
 

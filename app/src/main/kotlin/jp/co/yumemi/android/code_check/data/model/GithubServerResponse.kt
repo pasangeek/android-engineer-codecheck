@@ -9,7 +9,7 @@ package jp.co.yumemi.android.code_check.data.model
  */
 data class GithubServerResponse(
 
-    val total_count: Int,
+    val total_count: List<Any>,
     val incomplete_results: Boolean,
     val items: List<GithubRepositoryData>
 )
